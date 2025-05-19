@@ -1,5 +1,3 @@
-// Updated cart.js file with fixed links
-
 import { getLocalStorage } from "./utils.mjs";
 import CartCount from "./CartCount.mjs";
 

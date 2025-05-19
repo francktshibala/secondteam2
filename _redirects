@@ -1,0 +1,7 @@
+# Netlify _redirects file
+# This file should be placed in the root of your project or in the /public directory
+
+# Redirect all navigation paths to index.html for client-side routing
+/cart/*              /cart/index.html      200
+/product_pages/*     /product_pages/index.html    200
+/*                   /index.html           200
