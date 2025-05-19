@@ -1,0 +1,11 @@
+[build]
+  publish = "dist"
+  command = "npm run build"
+
+[context.production.environment]
+  VITE_SERVER_URL = "https://wdd330-backend.onrender.com/"
+
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
