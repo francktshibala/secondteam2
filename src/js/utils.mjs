@@ -93,3 +93,64 @@ export function renderListWithTemplate(template, parentElement, list, position =
     console.error("Error in renderListWithTemplate:", error);
   }
 }
+
+// New function to render a single template (for header/footer)
+export function renderWithTemplate(template, parentElement, data, callback) {
+  try {
+    if (!parentElement) {
+      console.error("Parent element is null or undefined");
+      return;
+    }
+    
+    // Insert the template into the parent element
+    parentElement.innerHTML = template;
+    
+    // If a callback was provided, call it with the data
+    if (callback) {
+      callback(data);
+    }
+  } catch (error) {
+    console.error("Error in renderWithTemplate:", error);
+  }
+}
+
+// New function to load an HTML template from a path
+export async function loadTemplate(path) {
+  try {
+    const response = await fetch(path);
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+    const template = await response.text();
+    return template;
+  } catch (error) {
+    console.error(`Error loading template from ${path}:`, error);
+    return "";
+  }
+}
+
+// New function to load and render the header and footer
+export async function loadHeaderFooter() {
+  try {
+    // Load the header template
+    const headerTemplate = await loadTemplate("/partials/header.html");
+    // Get the header element
+    const headerElement = document.getElementById("main-header");
+    // Render the header
+    renderWithTemplate(headerTemplate, headerElement);
+    
+    // Load the footer template
+    const footerTemplate = await loadTemplate("/partials/footer.html");
+    // Get the footer element
+    const footerElement = document.getElementById("main-footer");
+    // Render the footer
+    renderWithTemplate(footerTemplate, footerElement);
+    
+    // Initialize the cart count after the header is loaded
+    // (requires CartCount.mjs to be imported in the main script)
+    const event = new CustomEvent("headerfooterloaded");
+    document.dispatchEvent(event);
+  } catch (error) {
+    console.error("Error loading header and footer:", error);
+  }
+}
